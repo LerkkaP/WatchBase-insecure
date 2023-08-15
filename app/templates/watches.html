@@ -1,0 +1,10 @@
+{% extends "base.html" %} {% block content %}
+<h1>Watches</h1>
+<ul>
+    {% for watch in watches %}
+    <li>
+        {{ watch.brand }} {{watch.model}} {{watch.price}}
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}
