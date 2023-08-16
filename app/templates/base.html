@@ -13,14 +13,22 @@
             <li>
                 <a href="/">Home</a>
             </li>
-            <li>
-                <a href="/login">Login</a>
-            </li>
+            {% if request.session.username %}
+              <li><a href="/logout">Logout</a></li>
+            {% else %}
+              <li><a href="/login">Login</a></li>
+            {% endif %}
             <li>
               <a href="/watches">Watches</a>
             </li>
         </ul>
     </nav>
+    {% if messages %}
+      {% for message in messages %}
+        {{ message }}
+      {% endfor %}
+    {% endif %}
+
     {% block content %} {% endblock %}
   </body>
 </html>
