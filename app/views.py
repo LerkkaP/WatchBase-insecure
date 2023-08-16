@@ -19,6 +19,7 @@ def login(request):
         with connection.cursor() as cursor:
             cursor.execute(f"SELECT * FROM app_user WHERE username = '{user}'")
             row = cursor.fetchone()
+            print(row)
         
         if row and row[2] == password and row[1] == user:
             request.session['username'] = user
@@ -41,3 +42,7 @@ def watches(request):
 def details(request, id):
     item = Watch.objects.get(id=id)
     return render(request, "details.html", {'watch': item})
+
+def search(request):
+    with connection.cursor() as cursor:
+        cursor.execute()
