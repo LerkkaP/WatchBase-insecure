@@ -3,7 +3,7 @@
 <ul>
     {% for watch in watches %}
     <li>
-        {{ watch.brand }} {{watch.model}} {{watch.price}}
+        <a href="details/{{ watch.id }}">{{ watch.brand }} {{watch.model}} {{watch.price}}</a>
     </li>
     {% endfor %}
 </ul>
