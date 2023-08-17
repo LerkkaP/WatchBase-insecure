@@ -4,10 +4,25 @@ from django.views.decorators.csrf import csrf_exempt
 from django.db import connection
 from django.shortcuts import redirect
 from django.contrib import messages
+from django.db.models import Q
 
 # Create your views here.
 def home(request):
+    results = []
     context = {'is_authenticated': request.session.get('username')}
+
+    search_query = request.GET.get('search')
+    if search_query:
+       with connection.cursor() as cursor:
+            cursor.execute(f"SELECT * FROM app_watch WHERE brand LIKE '%{search_query}%'")
+            filtered_watches = cursor.fetchall()
+            for alkio in filtered_watches:
+                items = {"id": alkio[0], "brand": alkio[1], "model": alkio[3], "price": alkio[2]}
+                results.append(items)
+            context['filtered_watches'] = results
+        #filtered_watches = Watch.objects.filter(Q(brand__icontains=search_query) | Q(model__icontains=search_query))
+        #context['filtered_watches'] = filtered_watches
+
     return render(request, "home.html", context)
 
 @csrf_exempt
@@ -43,6 +58,4 @@ def details(request, id):
     item = Watch.objects.get(id=id)
     return render(request, "details.html", {'watch': item})
 
-def search(request):
-    with connection.cursor() as cursor:
-        cursor.execute()
+     

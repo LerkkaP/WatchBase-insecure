@@ -5,6 +5,20 @@
 {% if is_authenticated %}
     <p>Welcome, {{ request.session.username }}!</p>
 {% endif %}
-<input placeholder="Search...">
-<button type="submit">Search</button>
+
+<form method="GET">
+    <input type="text" name="search" placeholder="Search watches..." />
+    <button type="submit">Search</button>
+</form>
+
+{% if filtered_watches %}
+    <ul>
+        {% for watch in filtered_watches %}
+        <li>
+            <a href="{% url 'details' watch.id %}">{{ watch.brand }} {{ watch.model }} {{ watch.price }} €</a>
+        </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
 {% endblock %}
