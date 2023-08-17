@@ -58,4 +58,5 @@ def details(request, id):
     item = Watch.objects.get(id=id)
     return render(request, "details.html", {'watch': item})
 
+    
      
