@@ -1,16 +1,25 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %}
+{% block content %}
 
 <h1>{{ watch.brand }} {{ watch.model }} {{ watch.price }} €</h1>
+
 {% if watch.description %}
-    <p>{{ watch.description }}</p>
-    <form>
-        <button>Edit</button>
-    </form>
+    <div>
+        <p>{{ watch.description }}</p>
+        <form method="POST" action="{% url 'handle_description' watch.id %}">
+            <textarea rows="15" cols="60" name="description">{{ watch.description }}</textarea>
+            <button type="submit">Update</button>
+        </form>
+    </div>
 {% else %}
-    <form method="POST">
-        <textarea rows = "15" cols = "60" name="description"></textarea>
+    <form method="POST" action="{% url 'handle_description' watch.id %}">
+        <textarea rows="15" cols="60" name="description"></textarea>
         <button type="submit">Create</button>
     </form>
-
 {% endif %}
+
+{% if error_message %}
+    <p>{{ error_message }}</p>
+{% endif %}
+
 {% endblock %}

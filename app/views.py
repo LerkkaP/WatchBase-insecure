@@ -13,15 +13,19 @@ def home(request):
 
     search_query = request.GET.get('search')
     if search_query:
-       with connection.cursor() as cursor:
-            cursor.execute(f"SELECT * FROM app_watch WHERE brand LIKE '%{search_query}%'")
-            filtered_watches = cursor.fetchall()
-            for alkio in filtered_watches:
-                items = {"id": alkio[0], "brand": alkio[1], "model": alkio[3], "price": alkio[2]}
-                results.append(items)
-            context['filtered_watches'] = results
-        #filtered_watches = Watch.objects.filter(Q(brand__icontains=search_query) | Q(model__icontains=search_query))
-        #context['filtered_watches'] = filtered_watches
+       try:
+        with connection.cursor() as cursor:
+                cursor.execute(f"SELECT * FROM app_watch WHERE brand LIKE '%{search_query}%'")
+                filtered_watches = cursor.fetchall()
+                for alkio in filtered_watches:
+                    items = {"id": alkio[0], "brand": alkio[1], "model": alkio[3], "price": alkio[2]}
+                    results.append(items)
+                context['filtered_watches'] = results
+       except:
+           error_message = "There was an error."
+           context['error_message'] = error_message
+           return render(request, "home.html", context)
+
 
     return render(request, "home.html", context)
 
@@ -31,10 +35,13 @@ def login(request):
         user = request.POST.get('username')
         password = request.POST.get('password')
         
-        with connection.cursor() as cursor:
-            cursor.execute(f"SELECT * FROM app_user WHERE username = '{user}'")
-            row = cursor.fetchone()
-            print(row)
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute(f"SELECT * FROM app_user WHERE username = '{user}'")
+                row = cursor.fetchone()
+        except:
+            error_message = "There was an error."
+            return render(request, "login.html", {'error_message': error_message})
         
         if row and row[2] == password and row[1] == user:
             request.session['username'] = user
@@ -58,5 +65,21 @@ def details(request, id):
     item = Watch.objects.get(id=id)
     return render(request, "details.html", {'watch': item})
 
-    
-     
+
+@csrf_exempt
+def handle_description(request, id):
+    item = Watch.objects.get(id=id)
+
+    if request.method == 'POST':
+        description = request.POST.get('description')
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute(f"UPDATE app_watch SET description = '{description}' WHERE id = '{id}'")
+            return redirect('details', id=id)
+        except:
+            error_message = "There was an error."
+            return render(request, "details.html", {'watch': item, 'error_message': error_message })
+
+
+
+    return render(request, "details.html", {'watch': item})
