@@ -4,7 +4,6 @@ from django.db import models
 
 class Watch(models.Model):
     brand = models.CharField(max_length=200)
-    price = models.IntegerField()
     model = models.CharField(max_length=200, null=True)
     description = models.TextField(null=True)
 

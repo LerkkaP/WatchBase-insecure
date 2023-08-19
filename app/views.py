@@ -17,7 +17,7 @@ def home(request):
                 cursor.execute(f"SELECT * FROM app_watch WHERE brand LIKE '%{search_query}%'")
                 filtered_watches = cursor.fetchall()
                 for alkio in filtered_watches:
-                    items = {"id": alkio[0], "brand": alkio[1], "model": alkio[3], "price": alkio[2]}
+                    items = {"id": alkio[0], "brand": alkio[1], "model": alkio[2]}
                     results.append(items)
                 context['filtered_watches'] = results
        except:
@@ -87,9 +87,8 @@ def add_watch(request):
     if request.method == 'POST':
         brand = request.POST.get('brand')
         model = request.POST.get('model')
-        price = request.POST.get('price')
 
-        Watch.objects.create(brand=brand, model=model, price=price)
+        Watch.objects.create(brand=brand, model=model)
 
     return render(request, "watches.html", {"watches": items})
 
