@@ -15,7 +15,7 @@
     <ul>
         {% for watch in filtered_watches %}
         <li>
-            <a href="{% url 'details' watch.id %}">{{ watch.brand }} {{ watch.model }} {{ watch.price }} €</a>
+            <a href="{% url 'details' watch.id %}">{{ watch.brand }} {{ watch.model }}</a>
         </li>
         {% endfor %}
     </ul>

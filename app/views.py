@@ -4,7 +4,6 @@ from django.views.decorators.csrf import csrf_exempt
 from django.db import connection
 from django.shortcuts import redirect
 from django.contrib import messages
-from django.db.models import Q
 
 # Create your views here.
 def home(request):
@@ -80,6 +79,24 @@ def handle_description(request, id):
             error_message = "There was an error."
             return render(request, "details.html", {'watch': item, 'error_message': error_message })
 
-
-
     return render(request, "details.html", {'watch': item})
+
+@csrf_exempt
+def add_watch(request):
+    items = Watch.objects.all()
+    if request.method == 'POST':
+        brand = request.POST.get('brand')
+        model = request.POST.get('model')
+        price = request.POST.get('price')
+
+        Watch.objects.create(brand=brand, model=model, price=price)
+
+    return render(request, "watches.html", {"watches": items})
+
+
+
+    
+    
+
+
+

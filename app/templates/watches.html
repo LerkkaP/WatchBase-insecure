@@ -1,9 +1,23 @@
 {% extends "base.html" %} {% block content %}
 <h1>Watches</h1>
+
+<form method="POST" action="{% url 'add_watch' %}">
+    <label>Brand</label>
+    <input type="text" name="brand">
+
+    <label>Model</label>
+    <input type="text" name="model">
+
+    <label>Price</label>
+    <input type="number" name="price">
+
+    <button type="submit">Add</button>
+</form>
+
 <ul>
     {% for watch in watches %}
     <li>
-        <a href="{% url 'details' watch.id %}">{{ watch.brand }} {{watch.model}} {{watch.price}} €</a>
+        <a href="{% url 'details' watch.id %}">{{ watch.brand }} {{watch.model}}</a>
     </li>
     {% endfor %}
 </ul>
