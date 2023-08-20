@@ -93,6 +93,15 @@ def add_watch(request):
     return render(request, "watches.html", {"watches": items})
 
 
+@csrf_exempt
+def delete_watch(request, id):
+    item = Watch.objects.get(id=id)
+    if request.method == 'POST':
+        item.delete()
+
+    return redirect('watches')
+
+
 
     
     

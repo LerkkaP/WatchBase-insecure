@@ -3,6 +3,10 @@
 
 <h1>{{ watch.brand }} {{ watch.model }}</h1>
 
+<form method="POST" action="{% url 'delete_watch' watch.id %}">
+    <button type="submit">Delete</button>
+</form>
+
 {% if watch.description %}
     <div>
         <p>{{ watch.description }}</p>

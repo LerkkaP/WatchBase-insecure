@@ -9,5 +9,6 @@ urlpatterns = [
     path('details/<int:id>', views.details, name='details'),
     path('watch/<int:id>/handle_description/', views.handle_description, name='handle_description'),
     path('add_watch/', views.add_watch, name='add_watch'),
+    path('details/<int:id>/delete_watch/', views.delete_watch, name='delete_watch')
 
 ]
