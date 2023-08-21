@@ -3,15 +3,17 @@
 
 <h1>Watches</h1>
 
-<form method="POST" action="{% url 'add_watch' %}">
-    <label>Brand</label>
-    <input type="text" name="brand">
+{% if is_authenticated %}
+    <form method="POST" action="{% url 'add_watch' %}">
+        <label>Brand</label>
+        <input type="text" name="brand">
 
-    <label>Model</label>
-    <input type="text" name="model">
+        <label>Model</label>
+        <input type="text" name="model">
 
-    <button type="submit">Add</button>
-</form>
+        <button type="submit">Add</button>
+    </form>
+{% endif %}
 
 <ul>
     {% for watch in watches %}

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Watch
+from .models import Watch, User
 from django.views.decorators.csrf import csrf_exempt
 from django.db import connection
 from django.shortcuts import redirect
@@ -62,7 +62,7 @@ def watches(request):
 
 def details(request, id):
     item = Watch.objects.get(id=id)
-    return render(request, "details.html", {'watch': item})
+    return render(request, "details.html", {'watch': item, 'is_authenticated': request.session.get('username')})
 
 
 @csrf_exempt
@@ -71,7 +71,7 @@ def handle_description(request, id):
 
     if request.method == 'POST':
         description = request.POST.get('description')
-        
+ 
         try:
             with connection.cursor() as cursor:
                 cursor.execute(f"UPDATE app_watch SET description = '{description}' WHERE id = '{id}'")
@@ -89,10 +89,10 @@ def add_watch(request):
         brand = request.POST.get('brand')
         model = request.POST.get('model')
 
-        Watch.objects.create(brand=brand, model=model)
+        added_by_user = User.objects.get(username=request.session.get('username'))
+        Watch.objects.create(brand=brand, model=model, added_by=added_by_user)
 
     return render(request, "watches.html", {"watches": items})
-
 
 @csrf_exempt
 def delete_watch(request, id):

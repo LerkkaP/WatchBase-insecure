@@ -3,24 +3,32 @@
 
 <h1>{{ watch.brand }} {{ watch.model }}</h1>
 
-<form method="POST" action="{% url 'delete_watch' watch.id %}">
-    <button type="submit">Delete</button>
-</form>
-
-{% if watch.description %}
-    <div>
-        <p>{{ watch.description | safe }}</p>
-        <form method="POST" action="{% url 'handle_description' watch.id %}">
-            <textarea rows="15" cols="60" name="description">{{ watch.description }}</textarea>
-            <button type="submit">Update</button>
-        </form>
-    </div>
-{% else %}
-    <form method="POST" action="{% url 'handle_description' watch.id %}">
-        <textarea rows="15" cols="60" name="description"></textarea>
-        <button type="submit">Create</button>
-    </form>
+{% if watch.description and not request.session.username %}
+    <p>{{ watch.description }}</p>
 {% endif %}
+
+{% if watch.added_by.username == request.session.username %}
+
+    <form method="POST" action="{% url 'delete_watch' watch.id %}">
+        <button type="submit">Delete</button>
+    </form>
+
+    {% if watch.description %}
+        <div>
+            <p>{{ watch.description | safe }}</p>
+            <form method="POST" action="{% url 'handle_description' watch.id %}">
+                <textarea rows="15" cols="60" name="description">{{ watch.description }}</textarea>
+                <button type="submit">Update</button>
+            </form>
+        </div>
+    {% else %}
+        <form method="POST" action="{% url 'handle_description' watch.id %}">
+            <textarea rows="15" cols="60" name="description"></textarea>
+            <button type="submit">Create</button>
+        </form>
+    {% endif %}
+{% endif %}
+
 
 {% if error_message %}
     <p>{{ error_message }}</p>
