@@ -5,22 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Project 1</title>
-    <link rel="stylesheet" href="style.css">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'app/style.css' %}">
   </head>
   <body>
+    {% if is_authenticated %}
+      <p>Logged in as {{ request.session.username }}</p>
+    {% endif %}
     <nav>
         <ul>
             <li>
               <a href="/">Home</a>
+            </li>
+            <li>
+              <a href="/watches">Watches</a>
             </li>
             {% if request.session.username %}
               <li><a href="/logout">Logout</a></li>
             {% else %}
               <li><a href="/login">Login</a></li>
             {% endif %}
-            <li>
-              <a href="/watches">Watches</a>
-            </li>
         </ul>
     </nav>
     {% if messages %}

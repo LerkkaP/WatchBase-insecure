@@ -9,7 +9,7 @@
 
 {% if watch.description %}
     <div>
-        <p>{{ watch.description }}</p>
+        <p>{{ watch.description | safe }}</p>
         <form method="POST" action="{% url 'handle_description' watch.id %}">
             <textarea rows="15" cols="60" name="description">{{ watch.description }}</textarea>
             <button type="submit">Update</button>

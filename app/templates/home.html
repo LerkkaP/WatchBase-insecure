@@ -2,10 +2,6 @@
 
 {% block content %}
 
-{% if is_authenticated %}
-    <p>Logged in as {{ request.session.username }}</p>
-{% endif %}
-
 <form method="GET">
     <input type="text" name="search" placeholder="Search watches..." />
     <button type="submit">Search</button>

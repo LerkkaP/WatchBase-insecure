@@ -58,7 +58,7 @@ def logout(request):
 
 def watches(request):
     items = Watch.objects.all()
-    return render(request, "watches.html", {"watches": items})
+    return render(request, "watches.html", {"watches": items, 'is_authenticated': request.session.get('username')})
 
 def details(request, id):
     item = Watch.objects.get(id=id)
@@ -71,6 +71,7 @@ def handle_description(request, id):
 
     if request.method == 'POST':
         description = request.POST.get('description')
+        
         try:
             with connection.cursor() as cursor:
                 cursor.execute(f"UPDATE app_watch SET description = '{description}' WHERE id = '{id}'")
