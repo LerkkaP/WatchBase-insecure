@@ -1,25 +1,31 @@
-{% extends "base.html" %} 
+{% extends "base.html" %}
+
 {% block content %}
+<div class="container mt-4">
+  <h1>Watches</h1>
 
-<h1>Watches</h1>
+  {% if is_authenticated %}
+  <form method="POST" action="{% url 'add_watch' %}" class="mb-3">
+    <div class="form-group">
+      <label for="brand">Brand</label>
+      <input type="text" name="brand" id="brand" class="form-control">
+    </div>
 
-{% if is_authenticated %}
-    <form method="POST" action="{% url 'add_watch' %}">
-        <label>Brand</label>
-        <input type="text" name="brand">
+    <div class="form-group">
+      <label for="model">Model</label>
+      <input type="text" name="model" id="model" class="form-control">
+    </div>
 
-        <label>Model</label>
-        <input type="text" name="model">
+    <button type="submit" class="btn btn-primary">Add</button>
+  </form>
+  {% endif %}
 
-        <button type="submit">Add</button>
-    </form>
-{% endif %}
-
-<ul>
+  <ul class="list-group">
     {% for watch in watches %}
-    <li>
-        <a href="{% url 'details' watch.id %}">{{ watch.brand }} {{watch.model}}</a>
+    <li class="list-group-item">
+      <a href="{% url 'details' watch.id %}">{{ watch.brand }} {{ watch.model }}</a>
     </li>
     {% endfor %}
-</ul>
+  </ul>
+</div>
 {% endblock %}
