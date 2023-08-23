@@ -11,6 +11,14 @@
     {% endif %}
   {% endif %}
 
+  {% if request.session.username and watch.added_by.username != request.session.username %}
+    {% if watch.description %}
+      <p>{{ watch.description }}</p>
+    {% else %}
+      <p>No description added</p>
+    {% endif %}
+  {% endif %}
+
   {% if watch.added_by.username == request.session.username %}
     {% if watch.description %}
       <div class="mt-3">

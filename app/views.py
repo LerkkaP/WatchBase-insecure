@@ -25,7 +25,6 @@ def home(request):
            context['error_message'] = error_message
            return render(request, "home.html", context)
 
-
     return render(request, "home.html", context)
 
 @csrf_exempt
@@ -64,7 +63,6 @@ def details(request, id):
     item = Watch.objects.get(id=id)
     return render(request, "details.html", {'watch': item, 'is_authenticated': request.session.get('username')})
 
-
 @csrf_exempt
 def handle_description(request, id):
     item = Watch.objects.get(id=id)
@@ -84,7 +82,6 @@ def handle_description(request, id):
 
 @csrf_exempt
 def add_watch(request):
-    items = Watch.objects.all()
     if request.method == 'POST':
         brand = request.POST.get('brand')
         model = request.POST.get('model')
@@ -92,7 +89,7 @@ def add_watch(request):
         added_by_user = User.objects.get(username=request.session.get('username'))
         Watch.objects.create(brand=brand, model=model, added_by=added_by_user)
 
-    return render(request, "watches.html", {"watches": items})
+    return redirect('watches')
 
 @csrf_exempt
 def delete_watch(request, id):
