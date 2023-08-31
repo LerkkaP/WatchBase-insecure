@@ -49,7 +49,6 @@ def login(request):
             return redirect('login')
     return render(request, "login.html")
 
-@csrf_exempt
 def logout(request):
     if 'username' in request.session:
         del request.session['username']
@@ -63,7 +62,6 @@ def details(request, id):
     item = Watch.objects.get(id=id)
     return render(request, "details.html", {'watch': item, 'is_authenticated': request.session.get('username')})
 
-@csrf_exempt
 def handle_description(request, id):
     item = Watch.objects.get(id=id)
 
@@ -80,7 +78,6 @@ def handle_description(request, id):
 
     return render(request, "details.html", {'watch': item})
 
-@csrf_exempt
 def add_watch(request):
     if request.method == 'POST':
         brand = request.POST.get('brand')
@@ -91,7 +88,6 @@ def add_watch(request):
 
     return redirect('watches')
 
-@csrf_exempt
 def delete_watch(request, id):
     item = Watch.objects.get(id=id)
     if request.method == 'POST':
